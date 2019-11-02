@@ -131,4 +131,4 @@ class CleanText():
         return(c_re.sub(replace, text))
     
     def __repr__(self):
-        return(self.current_text)
+        return(self.text)
