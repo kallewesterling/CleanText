@@ -87,7 +87,7 @@ The standard settings in the package will:
 
 Any of those standards can be changed by modifying the "Standard Settings" at the top of the module file (`CleanText.py`):
 
-| Setting             | Set to `True`
+| Setting             | If set to `True`
 | -----------------   | --------------
 | LOWER               | *Modifies* text to lowercase.
 | EXPAND_CONTRACTIONS | *Modifies* text to expand any contractions (ex. `can't`, `won't`).
