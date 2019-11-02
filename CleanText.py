@@ -1,21 +1,15 @@
-# dependencies
-import html2text, yaml
-from nltk.corpus import stopwords
-
-import re, string
 
 
+#########################################
+####### Standard Settings ###############
+#########################################
 
-'''
-SETTINGS
-'''
-
-# process variables
+# Modifying original text
 LOWER = True
 EXPAND_CONTRACTIONS = True
 REMOVE_STOPWORDS = True
 
-# remove
+# Removing elements of original text
 LINKS = True
 DIGITS = True
 EMOJI = True
@@ -23,10 +17,14 @@ HASH = True
 AT = True
 PUNCTUATION = True
 
+#########################################
 
-'''
-Do not edit below here.
-'''
+
+
+
+import html2text, yaml, re, string
+from nltk.corpus import stopwords
+
 
 class CleanText():
     '''
@@ -37,8 +35,8 @@ class CleanText():
         if not isinstance(text, str): text = "" # this function only takes strings, so whatever else is fed to it needs to be neutralized
         if stopwords and not isinstance(stopwords, list): raise RuntimeError("stopwords provided needs to be a list of strings.")
         if special_replacements and not isinstance(special_replacements, dict): raise RuntimeError("special_replacements provided needs to be a dictionary.")
-                
-        self.text = text
+
+        self.original_text = text
         
         # process variables
         self.lower = LOWER
@@ -56,24 +54,26 @@ class CleanText():
         self.punctuation = PUNCTUATION
         
         # cleaning process
-        _ = self.text
-        _ = self._special_replacement(_)
-        
-        _ = self._clean_html(_)
-        if self.lower: _ = _.lower()
-        if self.links: _ = self._clean_links(_)
-        if self.hash: _ = self._clean_hashtags(_)
-        if self.at: _ = self._clean_ats(_)
-        if self.digits: _ = self._clean_digits(_)
-        if self.emoji: _ = self._clean_emojis(_)
-        if self.punctuation: _ = self._clean_punctuation(_)
-        if self.expand_contractions: _ = self._expand_contractions(_)
-        _ = self._clean_stopwords(_)
-        
-        _ = _.strip()
-        self.text = _
-        
-        
+        self.text = self.original_text
+        self.clean()
+
+    def clean(self):
+      _ = self.original_text
+      if self.special_replacements: _ = self._special_replacement(_)
+      _ = self._clean_html(_)
+      if self.lower: _ = _.lower()
+      if self.links: _ = self._clean_links(_)
+      if self.hash: _ = self._clean_hashtags(_)
+      if self.at: _ = self._clean_ats(_)
+      if self.digits: _ = self._clean_digits(_)
+      if self.emoji: _ = self._clean_emojis(_)
+      if self.punctuation: _ = self._clean_punctuation(_)
+      if self.expand_contractions: _ = self._expand_contractions(_)
+      _ = self._clean_stopwords(_)
+      _ = _.strip()
+      self.text = _
+      return(_)
+
     def _special_replacement(self, text):
         c_re = re.compile('(%s)' % '|'.join(self.special_replacements.keys()))
         def replace(match):
@@ -130,4 +130,4 @@ class CleanText():
         return(c_re.sub(replace, text))
     
     def __repr__(self):
-        return(self.text)
+        return(self.current_text)
