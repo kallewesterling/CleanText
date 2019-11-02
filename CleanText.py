@@ -1,4 +1,5 @@
-
+__version__ = "0.1"
+__author__ = "Kalle Westerling"
 
 #########################################
 ####### Standard Settings ###############
@@ -23,7 +24,6 @@ PUNCTUATION = True
 
 
 import html2text, yaml, re, string
-from nltk.corpus import stopwords
 
 
 class CleanText():
@@ -115,7 +115,8 @@ class CleanText():
         return(_)
     
     def _clean_stopwords(self, text):
-        stops = stopwords.words('english')
+        with open('./configuration/YoastSEO-stopwords.txt', 'r') as f:
+          stops = f.read().splitlines()
         stops.extend(self.stopwords)
         stops = set(stops)
         _ = " ".join([word for word in text.split() if word not in stops])
