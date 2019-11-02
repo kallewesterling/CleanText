@@ -133,4 +133,4 @@ After: This Advertisement Call go Maybe replaced definitely perhaps also
 
 ## Future improvements
 
-In the future, I want to remove the dependency on NLTK for stopwords and use a different, smaller package for this process. NLTK is too heavy for any users who do not need it.
+ ~~In the future, I want to remove the dependency on NLTK for stopwords and use a different, smaller package for this process. NLTK is too heavy for any users who do not need it.~~ The current version tries a different approach, [borrowed from YoastSEO](https://github.com/Yoast/YoastSEO.js/blob/develop/src/config/stopwords.js).
