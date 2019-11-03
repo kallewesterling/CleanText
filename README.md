@@ -4,8 +4,19 @@ CleanText is a Python package that I use in my research projects to clean social
 
 ## Dependencies
 
-The package is dependent on some various other packages: `html2text`, `yaml`
-and the `stopwords` dictionary from `nltk` (see [future improvements](#future-improvements))
+The package is dependent on some various other packages: `html2text`, `yaml`, and `unidecode`. They need all to be installed:
+
+```sh
+pip install html2text
+```
+
+```sh
+pip install yaml
+```
+
+```sh
+pip install unidecode
+```
 
 ## Usage
 
