@@ -1,6 +1,7 @@
 __version__ = "0.1"
 __author__ = "Kalle Westerling"
 
+
 #########################################
 ####### Standard Settings ###############
 #########################################
@@ -23,7 +24,7 @@ PUNCTUATION = True
 
 
 
-import html2text, yaml, re, string
+import html2text, yaml, re, string, unidecode  # new dependency: unidecode
 
 
 class CleanText():
@@ -66,6 +67,7 @@ class CleanText():
       if self.hash: _ = self._clean_hashtags(_)
       if self.at: _ = self._clean_ats(_)
       if self.digits: _ = self._clean_digits(_)
+      _ = unidecode.unidecode(_) # new feature
       if self.emoji: _ = self._clean_emojis(_)
       if self.punctuation: _ = self._clean_punctuation(_)
       if self.expand_contractions: _ = self._expand_contractions(_)
@@ -99,15 +101,9 @@ class CleanText():
     def _clean_digits(self, text):
         return(re.sub(r"[{}]".format(string.digits)," ", text))
     
-    def _clean_emojis(self, text):
-        _ = ""
-        for character in text:
-            try:
-                character.encode("ascii")
-                _ += character
-            except UnicodeEncodeError:
-                _ += ' '
-        return(_.strip())
+    def _clean_emojis(self, text): # thanks https://gist.github.com/Alex-Just/e86110836f3f93fe7932290526529cd1#gistcomment-3059482
+        RE_EMOJI = re.compile(u'([\U00002600-\U000027BF])|([\U0001f300-\U0001f64F])|([\U0001f680-\U0001f6FF])')
+        return RE_EMOJI.sub(r'', text)
     
     def _clean_punctuation(self, text):
         _ = re.sub("[{}]".format(string.punctuation)," ", text)
@@ -115,7 +111,7 @@ class CleanText():
         return(_)
     
     def _clean_stopwords(self, text):
-        with open('./configuration/YoastSEO-stopwords.txt', 'r') as f:
+        with open('/usr/local/lib/python3.7/site-packages/CleanTextConfiguration/YoastSEO-stopwords.txt', 'r') as f:
           stops = f.read().splitlines()
         stops.extend(self.stopwords)
         stops = set(stops)
@@ -123,7 +119,7 @@ class CleanText():
         return(_)
     
     def _expand_contractions(self, text):
-        with open("./configuration/contractions.yml") as f:
+        with open("/usr/local/lib/python3.7/site-packages/CleanTextConfiguration/contractions.yml") as f:
             contractions = yaml.load(stream=f)
         c_re = re.compile('(%s)' % '|'.join(contractions.keys()))
         def replace(match):
