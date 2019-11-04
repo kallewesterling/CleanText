@@ -23,8 +23,12 @@ PUNCTUATION = True
 
 
 
-
 import html2text, yaml, re, string, unidecode  # new dependency: unidecode
+
+
+# Constants
+RE_EMOJI = re.compile(u'([\U00002600-\U000027BF])|([\U0001f300-\U0001f64F])|([\U0001f680-\U0001f6FF])')
+RE_DIGITS = re.compile(u'\d+(th|st|nd|nth)|[0123456789]')
 
 
 class CleanText():
@@ -99,11 +103,10 @@ class CleanText():
         return(re.sub(r"@[\w-]+", "", text))
     
     def _clean_digits(self, text):
-        return(re.sub(r"[{}]".format(string.digits)," ", text))
+        return(RE_DIGITS.sub(r'', text))
     
     def _clean_emojis(self, text): # thanks https://gist.github.com/Alex-Just/e86110836f3f93fe7932290526529cd1#gistcomment-3059482
-        RE_EMOJI = re.compile(u'([\U00002600-\U000027BF])|([\U0001f300-\U0001f64F])|([\U0001f680-\U0001f6FF])')
-        return RE_EMOJI.sub(r'', text)
+        return(RE_EMOJI.sub(r'', text))
     
     def _clean_punctuation(self, text):
         _ = re.sub("[{}]".format(string.punctuation)," ", text)
