@@ -28,7 +28,7 @@ import html2text, yaml, re, string, unidecode  # new dependency: unidecode
 
 # Constants
 RE_EMOJI = re.compile(u'([\U00002600-\U000027BF])|([\U0001f300-\U0001f64F])|([\U0001f680-\U0001f6FF])')
-RE_DIGITS = re.compile(u'\d+(th|st|nd|nth)|[0123456789]')
+RE_DIGITS = re.compile(u'\d+(th|st|nd|nth)|\b\d+'?´?s\b|\d')
 
 
 class CleanText():
