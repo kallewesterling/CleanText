@@ -64,9 +64,10 @@ class CleanText():
 
     def clean(self):
       _ = self.original_text
+      if self.lower: _ = _.lower()
+      if self.expand_contractions: _ = self._expand_contractions(_)
       if self.special_replacements: _ = self._special_replacement(_)
       _ = self._clean_html(_)
-      if self.lower: _ = _.lower()
       if self.links: _ = self._clean_links(_)
       if self.hash: _ = self._clean_hashtags(_)
       if self.at: _ = self._clean_ats(_)
@@ -74,7 +75,6 @@ class CleanText():
       _ = unidecode.unidecode(_) # new feature
       if self.emoji: _ = self._clean_emojis(_)
       if self.punctuation: _ = self._clean_punctuation(_)
-      if self.expand_contractions: _ = self._expand_contractions(_)
       _ = self._clean_stopwords(_)
       _ = _.strip()
       self.text = _
