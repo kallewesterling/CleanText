@@ -123,7 +123,7 @@ class CleanText():
     
     def _expand_contractions(self, text):
         with open("/usr/local/lib/python3.7/site-packages/CleanTextConfiguration/contractions.yml") as f:
-            contractions = yaml.load(stream=f)
+            contractions = yaml.safe_load(stream=f)
         c_re = re.compile('(%s)' % '|'.join(contractions.keys()))
         def replace(match):
             return contractions[match.group(0)]
